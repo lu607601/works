@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+     .box {
+        border:1px solid grey;
+        padding:10px;
+        margin: 10px;
+        background-color: white;
+     }
+     #box_1_1_1,
+     #box_1_1_2,
+     #box_1_2_1,
+     #box_1_2_2,
+     #box_2_1_1,
+     #box_2_1_2,
+     #box_2_2_1,
+     #box_2_2_2{
+     	width: 40px;
+     	height: 30px;
+     }
+     #box,
+     #box_1,
+     #box_1_1,
+     #box_1_2,
+     #box_2,
+     #box_2_1,
+     #box_2_2{
+     	display:inline-flex;
+     	flex-flow:row nowrap;
+     	justify-content:space-between;
+     }
+	</style>
+</head>
+<body>
+    <div id="box" class="box">
+    	<div id="box_1" class="box">
+    		<div id="box_1_1" class="box">
+    			<div id="box_1_1_1" class="box"></div>
+    			<div id="box_1_1_2" class="box"></div>
+    		</div>
+    		<div id="box_1_2" class="box">
+    			<div id="box_1_2_1" class="box"></div>
+    			<div id="box_1_2_2" class="box"></div>
+    		</div>
+	    </div>
+        <div id="box_2" class="box">
+    		<div id="box_2_1" class="box">
+    			<div id="box_2_1_1" class="box"></div>
+    			<div id="box_2_1_2" class="box"></div>
+    		</div>
+    		<div id="box_2_2" class="box">
+    			<div id="box_2_2_1" class="box"></div>
+    			<div id="box_2_2_2" class="box"></div>
+    		</div>
+	     </div>
+	</div>
+	<br>
+	<br>
+	<button id="btnPre" >前序</button>
+	<button id="btnIn">中序</button>
+	<button id="btnPost">后序</button>
+	<script type="text/javascript">
+	    var oBox=document.getElementById('box');
+	    var oBtnPre=document.getElementById('btnPre');
+	    var oBtnIn=document.getElementById('btnIn');
+	    var oBtnPost=document.getElementById('btnPost');
+	    var que=[];
+		//建树
+		function createTree(oParent){
+           var children=oParent.children;
+           if(children.length!=0){
+           oParent.left=children[0];
+           oParent.right=children[1];
+           createTree(oParent.left);
+           createTree(oParent.right);
+           }
+		}//createTree
+		function setColor(obj){
+           obj.style.backgroundColor="green";
+           var timer=setTimeout(function(){
+           	  obj.style.backgroundColor="white";
+           },1000);
+		}
+		function render(){
+			var len=que.length,i=0;
+			var timer=setInterval(function(){
+                if(i==len){
+                	que[i-1].style.backgroundColor="white";
+                     clearInterval(timer);
+                }else{
+                	que[i].style.backgroundColor="green";
+                	if(i!=0){
+                	que[i-1].style.backgroundColor="white";
+                	}
+                	i++;
+                }
+			},500);
+		}
+		function preOrder(oParent){
+            if(oParent!=null){
+                que.push(oParent);
+                preOrder(oParent.left);
+                preOrder(oParent.right);
+            }
+		}//preOrder
+		function inOrder(oParent){
+            if(oParent!=null){
+            	inOrder(oParent.left);
+                que.push(oParent);
+                inOrder(oParent.right);
+            }
+		}//inOrder
+		function postOrder(oParent){
+             if(oParent!=null){
+             	postOrder(oParent.right);
+            	postOrder(oParent.left);
+                que.push(oParent);
+            }
+		}//postOrder
+        createTree(oBox);
+        oBtnPre.onclick=function(){
+        	que=[];
+        	preOrder(oBox);
+        	render();
+        };
+        oBtnIn.onclick=function(){
+        	que=[];
+        	inOrder(oBox);
+        	render();
+        };
+
+       oBtnPost.onclick=function(){
+        	que=[];
+        	postOrder(oBox);
+        	render();
+        };
+
+	</script>
+</body>
+</html>

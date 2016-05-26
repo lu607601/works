@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>quickSort</title>
+	<style type="text/css">
+    .rect {
+    	background-color:green;
+    	display:inline-block;
+    	margin-left:10px;
+    	width:16px;
+    }
+	</style>
+</head>
+<body>
+     <button id="randomBtn">随机生成</button>
+     <button id="quickSortBtn">快速排序</button>
+     speed:<input id="speed" type="text" placeholder="默认150">
+     <div id="wrap">     	
+     </div>
+     <script type="text/javascript">
+        var arrHeight=[],aRect=[],timeInterval;//矩形的高度,矩形，时间间隔
+        var oRdmBtn=document.getElementById('randomBtn');
+        var oSrtBtn=document.getElementById('quickSortBtn');
+        var oWrap=document.getElementById('wrap');
+        //getByClass
+        function getByClass(oParent,cls){
+            var arr=[];
+            var aEle=oParent.getElementsByTagName('*');
+            for(var i=0;i<aEle.length;i++){
+               if(aEle[i].className==cls){
+               	arr.push(aEle[i]);
+               }
+            }//for
+            return arr;
+        }
+        //事件处理程序
+     	var EventUtil={
+     		addEvent:function(ele,type,handle){
+               if(ele.addEventListener){
+                  ele.addEventListener(type,handle,false);  
+               }else if(ele.attachEvent){
+                  ele.attachEvent('on'+type,handle);
+               }else{
+               	  ele['on'+type]=handle;
+               }
+     		}
+     	};//EventUtil
+        function rdmHeight(){
+           arrHeight=[];
+           for(var i=0;i<20;i++){
+              arrHeight.push(Math.ceil(Math.random()*300));
+           }//for
+        }//rdmRectangle
+        function  createRect(){
+           //创建每个矩形
+           var strRect='';
+           for(i=0;i<20;i++){
+              strRect+='<div class="rect" style="height:'+arrHeight[i]+'px"></div>'
+           }
+           oWrap.innerHTML=strRect;
+           aRect=getByClass(oWrap,'rect');
+        }//createRect
+        function delayQueue(fn,t){
+           var queue=[],timer;
+           function schedule(fn,t){
+            timer=setTimeout(function(){
+                timer=null;
+                fn();
+                if(queue.length){
+                var next=queue.shift();
+                schedule(next.fn,next.t);
+                }//if
+            },t);//timer
+           }//schedule
+          var self={
+              delay:function(fn,t){
+              	if(queue.length||timer){
+              		queue.push({fn:fn,t:t});
+              	}else{
+              	    schedule(fn,t);
+              	}             
+                return self;
+              },
+          }//self
+          return self.delay(fn,t);
+        }//delayQueue
+        var dlyQue = delayQueue(function(){}, 0);
+        //基本色为绿色,经过的是个蓝色,当前的是个红色
+        function sortPartition(index,value){
+           dlyQue.delay(function(){
+                aRect[index].style.backgroundColor='blue';  
+           },0);
+           if(value){
+           	    dlyQue.delay(function(){
+                   aRect[index].style.height=value+'px';  
+               },0);
+           }//if
+           dlyQue.delay(function(){
+                aRect[index].style.backgroundColor='green';  
+           },timeInterval);
+        }//sortPartition
+        function sortRange(start,end,flag){//每次要排的范围
+          dlyQue.delay(function(){
+            for(var i=start;i<=end;i++){
+               aRect[i].style.backgroundColor=flag?'red':'green';
+            }
+            if (start>=end&&start<aRect.length) {
+            	aRect[start].style.backgroundColor='green';
+            }
+          },0);
+        }//sortRange
+        function quickSort(l,r){
+           var i=l,j=r,temp=arrHeight[l];
+           sortRange(0,aRect.length-1,false);
+           sortRange(l,r,true);
+           if(l<r){
+                while(i!=j){
+                    while(i<j&&temp<arrHeight[j]) {
+                    	sortPartition(j);
+                    	j--;
+                    }
+                    if(i<j){
+                       // aRect[i].style.height=arrHeight[j]+'px';    
+                        sortPartition(i,arrHeight[j]);                   
+                        arrHeight[i]=arrHeight[j];
+                        i++;
+                    }
+                    while(i<j&&temp>arrHeight[i]){  
+                        sortPartition(j);                  
+                    	i++;
+                    }
+                    if(i<j){
+                        //aRect[j].style.height=arrHeight[i]+'px'; //   
+                        sortPartition(j,arrHeight[i]);
+                        arrHeight[j]=arrHeight[i];
+                        j--;
+                    }
+                }
+                arrHeight[i]=temp;
+                //aRect[i].style.height=temp+'px';
+                sortPartition(i,temp);
+                quickSort(l,i-1);
+                quickSort(i+1,r);
+           }//l<r
+        }//quickSort
+       function getIpt(){
+           var speed=parseInt(document.getElementById('speed').value);
+           timeInterval=speed||150;
+       }
+        function rectWrap(){
+        	rdmHeight();
+            createRect();
+        }
+        function sortWrap(){
+        	getIpt();
+           quickSort(0,aRect.length-1);
+        }
+        EventUtil.addEvent(oRdmBtn,'click',rectWrap);
+        EventUtil.addEvent(oSrtBtn,'click',sortWrap);
+     </script>
+</body>
+</html>

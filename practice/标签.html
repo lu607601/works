@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+   .tip {
+      width: 400px;
+      border:1px solid grey;
+      padding: 10px;
+   }
+	  #wrap {
+	    margin-top: 20px;
+	  }
+   #areaTxt{
+     vertical-align: middle;
+     color:grey;
+   }
+   .num {
+          display:inline-block;
+          width:60px;
+          height:60px;
+          line-height: 60px;
+          text-align:center;
+          color: #fff;
+          background-color: red;
+          margin-right: 8px;
+     }
+	</style>
+</head>
+<body>
+     <p class="tip">
+         TIPS:批量输入多个内容，格式可以为数字、中文、英文等，可以通过用回车，逗号（全角半角均可），顿号，空格（全角半角、Tab等均可）等符号作为不同内容的间隔,
+         当点击查询时，可进行查询词的搜索
+     </p>
+     <br>
+     <br>
+     <textarea cols="30" rows="2" id="areaTxt" >      
+     </textarea>
+     <button id="leftEnter" class="btn">左侧入</button>
+     <button id="rightEnter" class="btn">右侧入</button>
+     <button id="leftOut" class="btn">左侧出</button>
+     <button id="rightOut" class="btn">右侧出</button>
+     <button id="search">查询</button>
+     <div id="wrap">
+     	<!-- <span class="num">3</span> -->
+     </div>
+     <script type="text/javascript">
+     	 var arr=[];
+     	 var oAreaTxt=document.getElementById('areaTxt');
+     	 var aBtn=document.getElementsByTagName('button');
+     	 var oWrap=document.getElementById('wrap');
+     	 var aSpan=document.getElementsByTagName('span');    
+        function validate(value){
+              if(/[^\s\r\n、,，a-zA-Z0-9\u4e00-\u9fa5]/.test(value))
+              {
+                 alert("输入的内容只能包含数字、中文、英文！！");
+                 return 0;
+               }else if(/^[\s\r\n、 ,，]$/.test(value))
+               {
+                 alert("输入为空！！");
+                 return 0;
+               }else{
+                 return 1;
+               }
+        }
+        //获取查找到项的下标
+        function searchLetter(letter,ii){
+          var len=arr.length;
+         /* for(var i=0;i<len;i++){
+             aSpan[i].style.backgroundColor='red';
+          }*/
+          for(var i=0;i<len;i++){
+              if(arr[i].indexOf(letter)>=0){
+                  aSpan[i].style.backgroundColor="green";
+                  //console.log(aSpan[i],aSpan[i].style.backgroundColor);
+                }
+          }
+        }//searchLetter
+        	 //渲染
+       function render(){
+         var str='';
+         for(var i=0;i<arr.length;i++){
+                    str+="<span class='num' id="+i+">"+arr[i]+"</span>";
+     	 	 }
+     	 	 oWrap.innerHTML=str?str:'';
+     	 }
+     	 //获取输入框中的数值，并添加到数组中
+     	 function addNum(btnNum){//btnNum=1:左侧入，btnNum=2:右侧入，btnNum=3:左侧出，btnNum=4：右侧出
+     	 	var value=oAreaTxt.value.replace(/(^\s*)|(\s*$)/g,''); //去除字符串两边的空格
+     	 if(validate(value)){
+          //console.log(value);
+          var valueNewArr=value.split(/[\s\r\n、 {0} {0},，]+/); 
+          //console.log(valueNewArr);     
+     	 	  var alertValue,i,len=valueNewArr.length;
+     	 	switch(btnNum){
+               case 1:{
+                     for(i=len-1;i>=0;i--){
+                        arr.unshift(valueNewArr[i]);
+                     }               	     
+                      render()
+               	      break;
+                      }
+               case 2:{
+                      for(i=0;i<len;i++){
+                        arr.push(valueNewArr[i]);
+                     }           
+                      render();           
+                      break;
+                       }
+               case 3:{
+                       alertValue=arr.shift();
+                       alert(alertValue);
+                      render();
+                       break;
+                      }
+               case 4:{
+                        alertValue=arr.pop();
+                        alert(alertValue);
+                        render();
+                        break;
+                        }
+               case 5:{
+                        render();
+                        searchLetter(value);
+                        // ii  uu  应用 天天  
+                    }
+     	 	}//switch
+     	 
+     	 	}
+     	 }//addNum
+     	 function  delNum(i){
+             arr.splice(i,1);
+             
+             render();
+     	 }
+         //为每个按钮添加事件
+       function addEvent(){
+       	 var i=0;
+         for( i=0;i<aBtn.length;i++){
+         	aBtn[i].index=i+1;
+            aBtn[i].onclick=function(){
+                 addNum(this.index);
+            }
+         }//for
+    
+         oWrap.onclick=function(ev){
+                var target=ev.srcElement||ev.target;
+                //console.log(target.nodeName);                 
+                if(target.nodeName.toLowerCase()=="span"){
+                  delNum(target.id);
+                }
+             }          
+       }
+       function init(){
+       	 addEvent();       	 
+       }
+       init();
+     </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+     .tip {
+       width: 400px;
+       border:1px solid grey;
+       padding:10px;
+     }
+    </style>
+  </head>
+<body>
+<p class="tip">
+        输入城市名称和空气质量指数
+        输入的城市名必须为中英文字符，空气质量指数必须为整数
+        可以点击表格列中的“删除”按钮，删掉那一行的数据
+</p>
+<br>
+<br>
+<div>
+    <label>城市名称：<input id="aqi-city-input" type="text"></label><br><br>
+    <label>空气质量指数：<input id="aqi-value-input" type="text"></label><br><br>
+    <button id="add-btn">确认添加</button>
+</div>
+  <table id="aqi-table">
+  <!-- 
+    <tr>
+      <td>城市</td><td>空气质量</td><td>操作</td>
+    </tr>
+    <tr>
+      <td>北京</td><td>90</td><td><button>删除</button></td>
+    </tr>
+    <tr>
+      <td>北京</td><td>90</td><td><button>删除</button></td>
+    </tr>
+   -->
+  </table>
+  <script src="js/formValidate.js"></script>
+</body>
+</html>

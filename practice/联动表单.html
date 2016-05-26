@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+       body,
+       select,
+       #jobTxt{
+       	font-size: 24px;
+       }
+       .hidden {
+       	 display:none;
+       }
+	</style>
+</head>
+<body>
+   <form id="myForm" action="" method="">
+     <div id="radioParent">
+        <input type="radio" checked name="graduateOrNot" id="undergraduate">
+        <label>在校生</label>
+        <input type="radio" name="graduateOrNot" id="notUndergraduate">
+        <label>非在校生</label>
+     </div>
+     <br>
+     <div id="school">     
+        <label>学校</label>
+        <select id="cityName">
+     	   <option selected>上海</option>
+     	   <option>北京</option>
+     	   <option>广州</option>
+        </select>
+        <select id="schoolName">
+        </select>
+     </div>
+     <div id="job">
+        <label>就业单位</label>
+        <input type="text" id="jobTxt">
+     </div>
+  </form>
+  <script type="text/javascript">
+    var form=document.getElementById('myForm');
+    var aRadio=form.elements['graduateOrNot'];
+    var oRadioParent=document.getElementById('radioParent');
+    var oSchool=document.getElementById('school');
+    var oJob=document.getElementById('job');
+    var oCityName=document.getElementById('cityName');
+    var oSchoolName=document.getElementById('schoolName');
+    //地区和学校的数据
+    var citySch={
+    	上海:["上海学校1","上海学校2","上海学校3"],
+    	北京:["北京学校1","北京学校2"],
+    	广州:["广州学校1","广州学校2","广州学校3"]
+    };
+    //切换在校生和非在校生
+    function changeRadio(){
+    	if(aRadio[0].checked){
+    	   oSchool.className=oSchool.className.replace(/hidden/,'');
+           oJob.className="hidden";
+    	}else if(aRadio[1].checked){
+    	   oJob.className=oJob.className.replace(/hidden/,'');
+           oSchool.className="hidden";
+    	}
+    }//checkVal
+
+    //切换地区和对应的学校
+    function  changeCity(){
+       var aCity=oCityName.getElementsByTagName('option');
+       for(var i=0;i<aCity.length;i++){
+          if(aCity[i].selected){
+          	var str='',
+          	    schArr=citySch[aCity[i].value],
+          	    len=schArr.length;
+          	str+='<option selected>'+schArr[0]+'</option>';
+          	for(var j=1;j<len;j++){
+               str+='<option>'+schArr[j]+'</option>';
+          	}        
+          	oSchoolName.innerHTML=str;    
+          }//if
+       }//for
+    }//changeCity
+    changeRadio();
+    changeCity();
+    oRadioParent.onchange=changeRadio;
+    oCityName.onchange=changeCity;
+  </script>
+</body>
+</html>

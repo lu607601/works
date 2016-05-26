@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>rowphoto</title>
+	<style type="text/css">
+    .container {
+    	width: 1000px;
+    	margin: 0 auto;
+    }
+    .box {
+        height: 100%;
+    	display: inline-block;
+    }
+    .box img {
+    	width: 100%;
+    	height: 100%;
+    }
+    .row {
+        overflow: hidden;
+    }
+	</style>
+</head>
+<body>
+    <div class="container">
+    	<div class="box">
+    		<img src="http://placehold.it/300x500/E97452/fff">
+    	</div>
+    	<div class="box">
+    		<img src="http://placehold.it/500x400/E90052/fff">
+    	</div>
+    	<div class="box">
+    		<img src="http://placehold.it/400x400/447452/fff">
+    	</div>
+    	<div class="box">
+    		<img src="http://placehold.it/500x700/E97499/fff">
+    	</div>
+    	<div class="box">
+    		<img src="http://placehold.it/800x900/Eff452/fff">
+    	</div>
+    	<div class="box">
+    		<img src="http://placehold.it/300x500/E97CC2/fff">
+    	</div>
+    	<div class="box">
+    		<img src="http://placehold.it/400x500/EAA052/fff">
+    	</div>
+        <div class="box">
+            <img src="http://placehold.it/800x500/E97452/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/400x500/E90052/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/600x400/447452/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/500x700/E97499/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/500x700/E97499/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/800x900/Eff452/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/500x700/E97499/fff">
+        </div>
+        <div class="box">
+            <img src="http://placehold.it/800x900/Eff452/fff">
+        </div>
+    </div>
+    <script type="text/javascript">
+    window.onload=function(){
+        var Rowphoto=function(opt){
+            this.container=document.querySelector(opt.container);
+            this.boxes=this.container.querySelectorAll(opt.box);
+            this.boxes.len=this.boxes.length;
+            this.minHeight=200;
+            this.minCols=3;
+            this.maxCols=6;
+            this.rows=[];
+        };//Rowphoto
+        Rowphoto.prototype={
+            calcRatio:function(){
+                for(var i=0;i<this.boxes.len;i++){
+                    //获取每个图片的宽高比
+                    this.boxes[i].radio=this.boxes[i].clientWidth/this.boxes[i].clientHeight;
+                }       
+            },//calcRatio
+            calcRows:function(){
+                //计算每行的高度
+                var width=0,count=0,rowsCount=0;
+                for(var i=0;i<this.boxes.len;i++){
+                   width+=this.boxes[i].radio*this.minHeight;
+                   count++;
+                   if((width>=this.container.clientWidth&&count>=this.minCols)||count>this.maxCols){
+                        width-=this.boxes[i].radio*this.minHeight;
+                        var rowRadio=this.minHeight/width;
+                        var rowHeight=this.container.clientWidth*rowRadio;//求得了每行的高度
+                        //console.log(width,rowRadio,rowHeight);
+                        var toLen=i-1;
+                        this.rows[rowsCount]={height:rowHeight,fromLen:i-count+1,toLen:i-1}; 
+                        count=1;
+                        width=this.boxes[i].radio*this.minHeight;
+                        rowsCount++;
+                   }//if
+                   this.boxes[i].row=rowsCount;                   
+                }//for
+                console.log(rowsCount);
+                return rowsCount;
+            },//calcRows
+            initRows:function(){
+                var rowsCount=this.calcRows();
+                for(var j=0;j<rowsCount;j++){
+                    var oDiv=document.createElement('div');
+                    oDiv.className="row";
+                    oDiv.style.height=this.rows[j].height+'px';
+                        for(var i=this.rows[j].fromLen;i<=this.rows[j].toLen;i++){
+                            this.boxes[i].style.width=this.boxes[i].radio*this.rows[this.boxes[i].row].height+'px';
+                            oDiv.appendChild(this.boxes[i]);
+                        }//for-i
+                    this.container.appendChild(oDiv);
+                }//for-j
+                //针对最后一行,不满足if((width>=this.container.clientWidth&&count>=this.minCols)||count>this.maxCols)，默认设置最后一行的高度为200px
+                if(i<this.boxes.len){
+                    var oDiv=document.createElement('div');
+                    oDiv.className="row";
+                    oDiv.style.height=this.minHeight+'px';
+                   for(i;i<this.boxes.len;i++){
+                       this.boxes[i].style.width=this.boxes[i].radio*this.minHeight+'px';
+                       oDiv.appendChild(this.boxes[i]);              
+                   }//for
+                    this.container.appendChild(oDiv);
+                }//if
+            },//initRows
+           render:function(){
+                this.calcRatio();
+                this.initRows();
+           }
+        };
+        var oRowPhoto=new Rowphoto({container:'.container',box:'.box'});
+        oRowPhoto.render();
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style type="text/css">
+  p {
+    margin: 0;
+  }
+   #form {
+      position: relative;
+   }
+  .labelName {
+      display: inline-block;
+      text-align: right;
+      width:80px;
+  }
+  .inputTxt {
+      width: 280px;
+      height: 30px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+  }
+  .tip {
+      position: relative;
+      left: 90px;
+  }
+  .hidden {
+     display: none;
+  }
+  .btn {
+    width: 100px;
+    height: 20px;
+    position: relative;
+    margin-top: 30px;
+    left:180px;
+  }
+  </style>
+</head>
+<body>
+     <form id="form" action="">
+       <span class="labelName">名称</span>
+       <input type="text" class="inputTxt" id="nameTxt">
+       <p class="tip hidden">名称不能为空</p>
+       <br>
+
+       <span class="labelName">密码</span>
+       <input type="password" class="inputTxt" id="pwdTxt">
+       <p class="tip hidden">密码不能为空</p>
+       <br>
+
+       <span class="labelName">密码确认</span>
+       <input type="password" class="inputTxt" id="pwd2Txt">
+       <p class="tip hidden">两次密码不一致</p>
+       <br>
+
+       <span class="labelName">邮箱</span>
+       <input type="text" class="inputTxt" id="emailTxt">
+       <p class="tip hidden">邮箱格式错误</p>
+       <br>
+
+       <span class="labelName">手机</span>
+       <input type="text" class="inputTxt" id="phoneTxt">
+       <p class="tip hidden">手机格式正确</p>
+       <br>
+
+       <button class="btn" id="btn">提交</button>
+     </form>
+     <script type="text/javascript">
+       var aInput=document.getElementsByTagName('input');
+       var aP=document.getElementsByTagName('p');
+       var oBtn=document.getElementById('btn');
+       var wrongTxt=['格式不正确',"格式不正确","确认密码输入错误","格式不正确","格式不正确"];
+
+      function validate_name(){
+        aInput[0].index=0;
+        aInput[0].onfocus=function(){
+          aP[this.index].className=aP[this.index].className.replace(/hidden/,'');
+          aP[this.index].style.color="black";
+          aP[this.index].innerHTML="必填，长度为4-16个字符";
+        }
+        aInput[0].onblur=function(){
+          var valCheck=this.value.replace(/[\u4e00-\u9fa5]/g,'aa');
+          if(valCheck.length>=4&&valCheck.length<=16){
+            aP[this.index].innerHTML="格式正确";
+            aP[this.index].style.color="green";
+            this.style.border="1px solid green";
+          }else{
+            aP[this.index].innerHTML="格式不正确";
+            aP[this.index].style.color="red";
+            this.style.border="1px solid red";
+          }//if-else
+        }
+      }//validate_name
+      function validate_pwd(){
+        aInput[1].index=1;
+        aInput[1].onfocus=function(){
+          aP[this.index].className=aP[this.index].className.replace(/hidden/,'');
+          aP[this.index].style.color="black";
+          aP[this.index].innerHTML="必填，长度为9-16个字符";
+        }
+        aInput[1].onblur=function(){
+          var valCheck=this.value.replace(/[\u4e00-\u9fa5]/g,'aa');
+          if(valCheck.length>=9&&valCheck.length<=16){
+            aP[this.index].innerHTML="格式正确";
+            aP[this.index].style.color="green";
+            this.style.border="1px solid green";
+          }else{
+            aP[this.index].innerHTML="格式不正确";
+            aP[this.index].style.color="red";
+            this.style.border="1px solid red";
+          }//if-else
+        }
+      }//validate_pwd
+      function validate_pwd2(){
+        aInput[2].index=2;
+        aInput[2].onfocus=function(){
+          aP[this.index].className=aP[this.index].className.replace(/hidden/,'');
+          aP[this.index].style.color="black";
+          aP[this.index].innerHTML="请再次输入密码";
+        }
+        aInput[2].onblur=function(){
+          if(this.value&&this.value==aInput[1].value){
+            aP[this.index].innerHTML="确认密码输入正确";
+            aP[this.index].style.color="green";
+            this.style.border="1px solid green";
+          }else{
+            aP[this.index].innerHTML="确认密码输入错误";
+            aP[this.index].style.color="red";
+            this.style.border="1px solid red";
+          }//if-else
+        }
+      }//validate_pwd  
+       function validate_email(){
+        aInput[3].index=3;
+        aInput[3].onfocus=function(){
+          aP[this.index].className=aP[this.index].className.replace(/hidden/,'');
+          aP[this.index].style.color="black";
+          aP[this.index].innerHTML="请输入正确的电子邮箱";
+        }
+        aInput[3].onblur=function(){
+          //var reg=new RegExp(^\w+[-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$);
+          if(/^[\w]+@([a-z0-9]+\.)+[a-z0-9]{2,4}$/i.test(this.value)){
+            aP[this.index].innerHTML="格式正确";
+            aP[this.index].style.color="green";
+            this.style.border="1px solid green";
+          }else{
+            aP[this.index].innerHTML="格式不正确";
+            aP[this.index].style.color="red";
+            this.style.border="1px solid red";
+          }//if-else
+        }
+      }//validate_pwd
+       function validate_phone(){
+        aInput[4].index=4;
+        aInput[4].onfocus=function(){
+          aP[this.index].className=aP[this.index].className.replace(/hidden/,'');
+          aP[this.index].style.color="black";
+          aP[this.index].innerHTML="请输入正确的手机号码";
+        }
+        aInput[4].onblur=function(){
+          if(/^\d{11}$/.test(this.value)){
+            aP[this.index].innerHTML="格式正确";
+            aP[this.index].style.color="green";
+            this.style.border="1px solid green";
+          }else{
+            aP[this.index].innerHTML="格式不正确";
+            aP[this.index].style.color="red";
+            this.style.border="1px solid red";
+          }//if-else
+        }
+      }//validate_pwd   
+      function validate(){
+        var right=1;
+        for(var i=0;i<aP.length;i++){
+           if(aP[i].className.indexOf('hidden')!=-1||aP[i].style.color=='red'){
+             aP[i].className=aP[i].className.replace(/hidden/,'');             
+             aP[i].innerHTML=wrongTxt[i];
+             aP[i].style.color="red";
+             aInput[i].style.border="1px solid red";
+             right=0;
+           }
+        }//for
+        if(right){
+             alert("输入错误");
+        }else{
+             alert("输入正确");
+           }
+      }//validate
+      validate_name();
+      validate_pwd();
+      validate_pwd2();
+      validate_email();
+      validate_phone();
+      oBtn.onclick=validate;
+     </script>
+</body>
+</html>
