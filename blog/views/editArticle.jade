@@ -1,0 +1,24 @@
+doctype html
+html
+head
+     title article
+     meta(http-equiv="Content-Type",content="text/html;charset=utf-8")
+     link(type="text/css",rel="stylesheet",href="/stylesheets/style.css")
+     link(type="text/css",rel="stylesheet",href="/stylesheets/article.css")
+     script(type="text/javascript",src="/javascripts/jquery-1.11.3.js")
+ body
+    if oneArticle
+        div(id="articleFormWrap",class="articleFormWrap")
+            form(method="post",action="/article")
+              h2 文章标题
+                 input(type="text",name="title",class="title",id="title") #{oneArticle.title}
+              div.describWrap 描述
+                 input(type="text",name="describ",class="describ",id="describ") #{oneArticle.describ}
+              div.contentWrap 
+                 p.cntTit 内容
+                 textarea(name="content",class="txtArea",id="txtAream") #{oneArticle.content}
+              input(type="button",class="articleBtn",id="resetArticleBtn",value="重置")
+              input(type="button",class="articleBtn",id="saveArticleBtn",value="保存")
+              input(type="button",class="articleBtn",id="submitArticleBtn",value="提交") 
+    
+

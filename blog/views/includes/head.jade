@@ -1,0 +1,47 @@
+div.header
+    div.navbar.navbar-default
+      div.container-fluid
+        <!-- Brand and toggle get grouped for better mobile display -->
+        div.navbar-header
+          button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#bs-example-navbar-collapse-1",aria-expanded="false")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        div.collapse.navbar-collapse#bs-example-navbar-collapse-1
+          ul.nav.navbar-nav.navBarLeft
+            li.active
+               a(href="/") 首页 
+                  span.sr-only (current)
+            li
+               a(href="/study") 学习
+            li
+               a(href="/photos") 相册
+            li
+               a(href="/activity") 活动
+          ul.nav.navbar-nav.navbar-right
+                li#loginM
+                  a(href="#loginModal",data-toggle="modal") admin
+                li#adminName
+                  a
+                li#loginOut.hidden
+                  a(href="#") 退出 
+<!--登录模态框（Modal） -->
+div.modal.fade#loginModal(tabindex="-1",role="dialog",  
+   aria-labelledby="loginModalLabel",aria-hidden="true") 
+   div.modal-dialog
+      div.modal-content
+         div.modal-header
+            button.close(type="button",
+               data-dismiss="modal",aria-hidden="true") &times;                  
+            h4#myModalLabel.modal-title  登录(需为admin的username&&psw)             
+         div.modal-body
+           form.form-signin(method="",action="")
+              input#inputEmail.form-control(type="email",placeholder="Email address" required,autofocus,name="username")
+              label.sr-only(for="inputPassword") Password
+              input#inputPassword.form-control(type="password",placeholder="Password",required,name="psw")
+              button.btn.btn-lg.btn-primary.btn-block#signInBtn(type="button") Sign in
+    script(type="text/javascript",src="../javascripts/calendar.js")
+
+    

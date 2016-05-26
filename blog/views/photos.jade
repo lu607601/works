@@ -1,0 +1,33 @@
+DOCTYPE
+head
+    meta(charset="utf-8")
+    title articles
+    link(type="text/css",rel="stylesheet",href="../stylesheets/bootstrap.min.css")
+    link(type="text/css",rel="stylesheet",href="../stylesheets/style.css")
+    script(type="text/javascript",src="../javascripts/jquery-1.11.3.js")
+    script(type="text/javascript",src="../javascripts/jquery.cookie.js")
+    script(type="text/javascript",src="../javascripts/bootstrap.min.js")
+body
+    include includes/head
+    <!--中间内容区-->
+    div.contentWrap       
+        div.list-group
+           a.list-group-item.active(href="#")
+              h3.list-group-item-heading 沪                 
+           div.list-group-item
+              div.container               
+                div.row
+                  if photos
+                     each photo in photos
+                        div.col-md-4
+                          div.thumbnail
+                            img(src="#{photo.path}",alt="#{photo._id}")
+                            div.caption
+                              h4 #{photo.name}
+    form(role="form",method="post",action="/photos/file/uploading",enctype="multipart/form-data")
+     div.form-group
+         label(for="inputfile") 想上传的照片
+         input#inputfile(type="file",name="imgIptFile",multiple="mutiple")
+         input.btn.btn-default(name="inputBtn",type="submit",value="提交")
+    script(type="text/javascript",src="../javascripts/main.js")
+             

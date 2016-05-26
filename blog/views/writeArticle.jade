@@ -1,0 +1,24 @@
+DOCTYPE
+head
+    meta(charset="utf-8")
+    title articles
+    link(type="text/css",rel="stylesheet",href="../stylesheets/bootstrap.min.css")
+    link(type="text/css",rel="stylesheet",href="../stylesheets/style.css")
+    script(type="text/javascript",src="../javascripts/jquery-1.11.3.js")
+    script(type="text/javascript",src="../javascripts/jquery.cookie.js")
+    script(type="text/javascript",src="../javascripts/bootstrap.min.js")
+body
+    include includes/head
+        <!--中间内容区-->
+    div.contentWrap
+        form(role="form")
+          div.form-group
+            label(for="name") 标题
+            input.form-control.wTitle#wTitle(type="text",placeholder="文本输入")
+          div.form-group
+            label(for="name") 内容
+            textarea.form-control(rows="20").wContent#wContent
+          button.btn.btn-default.wRsetBtn#wRsetBtn(type="reset") 重置 
+          button.btn.btn-default.wSbmitBtn#wSbmitBtn 提交
+    script(type="text/javascript",src="../javascripts/main.js")
+

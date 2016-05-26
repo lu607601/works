@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>galleryWall</title>
+	<style type="text/css">
+     .rowWrap {
+        width: 900px;
+        height:600px;
+        margin:0 auto;
+        position: relative;
+        overflow: hidden;
+     }
+     .photo-1 {
+        width: 100%;
+        height: 100%;
+     }
+     .photo-2 {    
+        height: 100%;
+        position: absolute;
+     }
+     .photo-2:nth-child(1){
+        width: 66.66%;
+        left: 0;
+     }
+     .photo-2:nth-child(2){
+        width: 66.66%;
+        left: 33.33%;
+        -webkit-clip-path: polygon(50% 0, 100% 0, 100% 100%, 0% 100%);
+        clip-path: polygon(50% 0, 100% 0, 100% 100%, 0% 100%);
+     }
+     .photo-3 {    
+       float:left;
+     }
+     .photo-3:nth-child(1) {
+        width:60%;
+        height: 100%;
+     }
+     .photo-3:nth-child(2) {
+        width: 40%;
+        height: 50%;
+     }
+     .photo-3:nth-child(3) {
+        width: 40%;
+        height: 50%;
+     }  
+     .photo-4 {
+       float:left;
+       width:50%;
+       height: 50%;
+     }
+     .photo-5 {
+        float:left;
+        position: absolute;
+     }
+     .photo-5:nth-child(1) {
+        height: 66.66%;
+        left:0;
+     }
+     .photo-5:nth-child(2){
+        width:33.33%;
+        height: 33.33%; 
+        right:0;
+        top:0;
+     }
+     .photo-5:nth-child(4){
+        width:33.33%;
+        height: 33.33%; 
+        left:0;   
+        bottom: 0;     
+     }
+     .photo-5:nth-child(5) {
+        width:33.33%;
+        height: 33.33%; 
+        left:33.33%;
+        bottom: 0;
+     }
+     .photo-5:nth-child(3) {
+        width:33.33%;
+        height: 66.66%;
+        right: 0;
+        bottom: 0;
+     }
+     .photo-6 {
+        float:left;
+        position: absolute;
+     }
+     .photo-6:nth-child(1){
+        width:66.66%;
+        height: 66.66%;
+        left: 0;
+        top: 0;
+     }
+     .photo-6:nth-child(2){
+        width: 33.33%;
+        height: 33.33%;
+        right: 0;
+        top: 0;
+     }
+     .photo-6:nth-child(3),
+     .photo-6:nth-child(4),
+     .photo-6:nth-child(5),
+     .photo-6:nth-child(6){
+        width:33.33%;
+     }
+     .photo-6:nth-child(4),
+     .photo-6:nth-child(5),
+     .photo-6:nth-child(6){
+        height: 33.33%;
+        bottom: 0;
+     }
+     .photo-6:nth-child(3){
+       top:33.33%;
+       right:0;
+     }
+     .photo-6:nth-child(4){
+       left: 0%;
+     }
+     .photo-6:nth-child(5){
+       left: 33.33%;
+     }
+     .photo-6:nth-child(6){
+       right:0;
+     }
+     img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+     }
+	</style>
+</head>
+<body>
+    <div class="rowWrap">
+    	<div class="photo-1">
+    		<img src="http://placehold.it/1000x600/00008B/fff">
+    	</div>
+    </div>
+    <div class="rowWrap">
+        <div class="photo-2">
+            <img src="http://placehold.it/400x600/00EE8B/fff">
+        </div>
+        <div class="photo-2">
+            <img src="http://placehold.it/800x600/66AA8B/fff">
+        </div>
+    </div>
+    <div class="rowWrap">
+    	<div class="photo-3">
+    		<img src="http://placehold.it/700x600/0AA02A/fff">
+    	</div>
+    	<div class="photo-3">
+    		<img src="http://placehold.it/500x300/600ffB/fff">
+    	</div>
+    	<div class="photo-3">
+    		<img src="http://placehold.it/200x300/88008B/fff">
+    	</div>
+    </div>
+    <div class="rowWrap">
+        <div class="photo-4">
+            <img src="http://placehold.it/600x600/600C00/fff">
+        </div>
+        <div class="photo-4">
+            <img src="http://placehold.it/500x300/0Aee2A/fff">
+        </div>
+        <div class="photo-4">
+            <img src="http://placehold.it/300x300/8DD08B/fff">
+        </div>
+        <div class="photo-4">
+            <img src="http://placehold.it/700x300/EE208B/fff">
+        </div>
+    </div>
+    <div class="rowWrap">
+        <div class="photo-5">
+            <img src="http://placehold.it/600x600/600C00/fff">
+        </div>
+        <div class="photo-5">
+            <img src="http://placehold.it/500x300/0Aee2A/fff">
+        </div>
+        <div class="photo-5">
+            <img src="http://placehold.it/300x300/8DD08B/fff">
+        </div>
+        <div class="photo-5">
+            <img src="http://placehold.it/700x300/EE208B/fff">
+        </div>
+        <div class="photo-5">
+            <img src="http://placehold.it/500x300/EFF08B/fff">
+        </div>
+    </div>
+    <div class="rowWrap">
+        <div class="photo-6">
+            <img src="http://placehold.it/600x600/FF0C00/fff">
+        </div>
+        <div class="photo-6">
+            <img src="http://placehold.it/500x300/0Aee2A/fff">
+        </div>
+        <div class="photo-6">
+            <img src="http://placehold.it/300x300/8DD08B/fff">
+        </div>
+        <div class="photo-6">
+            <img src="http://placehold.it/700x300/EE208B/fff">
+        </div>
+        <div class="photo-6">
+            <img src="http://placehold.it/500x300/600C00/fff">
+        </div>
+        <div class="photo-6">
+            <img src="http://placehold.it/500x300/EFF08B/fff">
+        </div>
+    </div>
+    <script type="text/javascript">
+    	
+    </script>
+</body>
+</html>
