@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+	   body {
+	   	  color: grey;
+	   }
+	    ul{
+	      margin:0;
+	      padding: 0;
+	    }
+	    li {
+	    	list-style: none;
+	    }
+	    #main {
+	    	margin-bottom: 40px;
+	    	position: relative;
+	    }
+	    .ulCls {
+	      width:561px;
+	      overflow: hidden;	      
+	    }
+       .ul-Li {
+       	 width:50px;
+       	 height: 50px;
+       	 text-align: center;
+       	 line-height: 50px;
+       	 float: left;
+       	 position: relative;
+       	 border-right:1px solid grey;
+       	 border-bottom:1px solid grey;
+       }
+       .row,
+       .col {
+       	font-size: 28px;
+       }
+       .row {
+       	  border-right:1px solid white;
+       	  
+       }
+       .col {
+          border-bottom:1px solid white;
+       }
+       .bottomBorder {
+       	 border-bottom: 1px solid grey;
+       }
+       #go,#reset{
+       	 color: grey;
+       }
+       .box {
+       	 width:50px;
+       	 height: 50px;
+       	 position: absolute;
+       	 left:255px;
+       	 top:255px;
+       	 transition: all .5s linear;
+       	 -webkit-transition:all .5s linear;
+       }
+       .box-top{
+       	height: 10px;
+       	background-color: blue;
+       }
+       .box-bottom{
+       	height: 40px;
+       	background-color: red;
+       }
+       #txtWrap {
+         width: 200px;
+         height: 200px;
+         overflow: hidden;
+         position: relative;
+         background-color: grey;
+       }
+       .txtUl {
+         width: 30px;
+         position: absolute;
+         overflow: hidden;
+       }
+       .txtLi {
+         text-align: center;
+         height: 20px;
+         font-weight: bold;
+         color: green;
+         left: 0;
+       }
+       #inputTxt {
+        width: 160px;
+        height:180px;
+        line-height: 20px;
+        color: white;
+        position: relative;
+        left: 30px;
+        background-color: black;
+        border:1px solid white;
+       }
+	</style>
+</head>
+<body>
+   <div id="main">
+<!--   	   	<ul class="ulCls">
+   	   	    <li class="ul-Li row col"></li>
+   	   	  	<li class="ul-Li row">1</li>
+   	   	  	<li class="ul-Li row">2</li>
+   	   	  	<li class="ul-Li row">3</li>
+   	   	  	<li class="ul-Li row">4</li>
+   	   	  	<li class="ul-Li row">5</li>
+   	   	</ul>
+   	   	<ul class="ulCls">
+   	   	  	<li class="ul-Li col">1</li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	</ul>
+   	   		<ul class="ulCls">
+   	   	  	<li class="ul-Li col">2</li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	</ul>
+   	   		<ul class="ulCls">
+   	   	  	<li class="ul-Li col">3</li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	</ul>
+   	   		<ul class="ulCls">
+   	   	  	<li class="ul-Li col">4</li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	  	<li class="ul-Li"></li>
+   	   	</ul>
+   	   		<ul class="ulCls">
+   	   	  	<li class="ul-Li col">5</li>
+   	   	  	<li class="ul-Li bottomBorder"></li>
+   	   	  	<li class="ul-Li bottomBorder"></li>
+   	   	  	<li class="ul-Li bottomBorder"></li>
+   	   	  	<li class="ul-Li bottomBorder"></li>
+   	   	  	<li class="ul-Li bottomBorder"></li>
+   	   	</ul>  -->
+   	 <!--   	<div id="box" class="box">
+   	   	  <div class="box-top"></div>
+   	   	  <div class="box-bottom"></div>
+   	    </div>  -->
+   	</div>
+
+   <button id="go">执行</button>
+   <button id="reset">reset</button>
+   <br>
+   <br>
+   <div id="txtWrap">
+      <ul class="txtUl" id="txtUl">
+      <!-- 点击输入时(keydown),数字1才会出来，觉得这样不是太好 !!!!!!!
+      -->
+      </ul>
+      <textarea id="inputTxt"></textarea>         
+   </div>
+   <p id="intro">
+     <h3>指令:</h3>
+    GO n：向蓝色边所面向的方向前进n格<br>
+    TUN LEF：向左转（逆时针旋转90度)-------------
+    TUN RIG：向右转（顺时针旋转90度)<br>
+    TUN BAC：向右转（旋转180度）-------------
+    TRA LEF n：向屏幕的左侧移动n格，方向不变<br>
+    TRA TOP n：向屏幕的上面移动n格，方向不变-------------
+    TRA RIG n：向屏幕的右侧移动n格，方向不变<br>
+    TRA BOT n：向屏幕的下面移动n格，方向不变-------------
+    MOV LEF n：方向转向屏幕左侧，并向屏幕的左侧移动n格<br>
+    MOV TOP n：方向转向屏幕上面，向屏幕的上面移动n格-------------
+    MOV RIG n：方向转向屏幕右侧，向屏幕的右侧移动n格<br>
+    MOV BOT n：方向转向屏幕下面，向屏幕的下面移动n格
+  </p>
+  <script type="text/javascript" src="js/commandBlock.js"></script>
+</body>
+</html>
+
+

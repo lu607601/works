@@ -68,16 +68,6 @@
 	    var oBtnIn=document.getElementById('btnIn');
 	    var oBtnPost=document.getElementById('btnPost');
 	    var que=[];
-		//建树
-		function createTree(oParent){
-           var children=oParent.children;
-           if(children.length!=0){
-           oParent.left=children[0];
-           oParent.right=children[1];
-           createTree(oParent.left);
-           createTree(oParent.right);
-           }
-		}//createTree
 		function setColor(obj){
            obj.style.backgroundColor="green";
            var timer=setTimeout(function(){
@@ -102,25 +92,24 @@
 		function preOrder(oParent){
             if(oParent!=null){
                 que.push(oParent);
-                preOrder(oParent.left);
-                preOrder(oParent.right);
+                preOrder(oParent.children[0]);
+                preOrder(oParent.children[1]);
             }
 		}//preOrder
 		function inOrder(oParent){
             if(oParent!=null){
-            	inOrder(oParent.left);
+            	inOrder(oParent.children[0]);
                 que.push(oParent);
-                inOrder(oParent.right);
+                inOrder(oParent.children[1]);
             }
 		}//inOrder
 		function postOrder(oParent){
              if(oParent!=null){
-             	postOrder(oParent.right);
-            	postOrder(oParent.left);
+             	postOrder(oParent.children[0]);
+            	postOrder(oParent.children[1]);
                 que.push(oParent);
             }
 		}//postOrder
-        createTree(oBox);
         oBtnPre.onclick=function(){
         	que=[];
         	preOrder(oBox);
