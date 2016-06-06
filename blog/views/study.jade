@@ -1,31 +1,21 @@
-DOCTYPE
-head
-    meta(charset="utf-8")
-    title articles
-    link(type="text/css",rel="stylesheet",href="../stylesheets/bootstrap.min.css")
-    link(type="text/css",rel="stylesheet",href="../stylesheets/style.css")
-    script(type="text/javascript",src="../javascripts/jquery-1.11.3.js") 
-    script(type="text/javascript",src="../javascripts/jquery.cookie.js")
-    script(type="text/javascript",src="../javascripts/bootstrap.min.js")
-body
-    include includes/head
-    <!--中间内容区-->
-    div.contentWrap
-        div.container
-            div.row 
-                include includes/aside
-                div.col-md-8 
-                    if studyFiles
-                       each oneFile in studyFiles
-                          div.list-group
-                            a.list-group-item.listW(href="#{oneFile.path}") #{oneFile.name}
-                            a.list-group-item.pull-right.pos(href="/study/d/#{oneFile._id}") 删除
-                    else
-                       p 暂无文件
-                    form(role="form",method="post",action="/study/file/uploading",enctype="multipart/form-data")
-                         div.form-group
-                             label(for="inputfile") 想添加的作品
-                             input#inputfile(type="file",name="studyIptFile")
-                             input.btn.btn-default.pull-right(name="inputBtn",type="submit",value="提交")
-    script(type="text/javascript",src="../javascripts/main.js")
+include includes/head
+<!--中间内容区-->
+div.contentWrap
+    div.container
+        div.row 
+            include includes/aside
+            div.col-md-8 
+                if studyFiles
+                   each oneFile in studyFiles
+                      div.list-group
+                        a.list-group-item.listW(href="#{oneFile.path}") #{oneFile.name}
+                        a.list-group-item.pull-right.pos(href="/study/d/#{oneFile._id}") 删除
+                else
+                   p 暂无文件
+                form(role="form",method="post",action="/study/file/uploading",enctype="multipart/form-data")
+                     div.form-group
+                         label(for="inputfile") 想添加的作品
+                         input#inputfile(type="file",name="studyIptFile")
+                         input.btn.btn-default.pull-right(name="inputBtn",type="submit",value="提交")
+script(type="text/javascript",src="javascripts/main.js")
           

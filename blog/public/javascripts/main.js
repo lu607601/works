@@ -1,12 +1,10 @@
 $(function(){   
-    ///////////////////////////////////////////////////////////
 	/*-----------------------导航-----------------------------*/
-	/////////////////////////////////////////////////////////// 
     $('.navBarLeft li').each(function(){  
         var activeNav=window.location.pathname.replace('/','');
         $.each($('.navBarLeft li'),function(){
            $(this).removeClass('active');
-        });
+        });  
         switch(activeNav){ 
            case '':$('.navBarLeft li').eq(0).addClass('active');
                     break;
@@ -18,21 +16,41 @@ $(function(){
                     break;                   
         }
     });//each
-    ///////////////////////////////////////////////////////////
     /*-----------------------登录退出-----------------------------*/
-    ///////////////////////////////////////////////////////////
+    $('.login').click(function(){
+        $('#signInBtn').text("登录");
+    });
+    $('.register').click(function(){
+        $('#signInBtn').text("注册");
+    });
     $('#signInBtn').click(function(){
          var username=$('#inputEmail').val(); 
-         var psw=$('#inputPassword').val();
-         $.post('/login',{username:username,psw:psw},function(data){
-             var data=JSON.parse(data);
-             $.cookie('adminName',data["admin"]["username"]);
-             $('#loginM').hide();
-             $('#adminName a').eq(0).text($.cookie('adminName'));
-             $('#loginOut').removeClass('hidden');
-             //关闭模态框
-             $('#loginModal').modal('toggle');
-         });//$.post
+         var psw=$('#inputPassword').val();   
+         if($('#signInBtn').text()=="注册"){
+             $.post('/register',{username:username,psw:psw},function(data){
+                var data=JSON.parse(data);
+                $.cookie('adminName',data["admin"]["username"]);
+                $('#loginM').hide();
+                $('#adminName a').eq(0).text($.cookie('adminName'));
+                $('#loginOut').removeClass('hidden');
+                //关闭模态框
+                $('#loginModal').modal('toggle');               
+             });
+         }else{
+             $.post('/login',{username:username,psw:psw},function(data){
+                var data=JSON.parse(data);
+                if(data["admin"]){
+                     $.cookie('adminName',data["admin"]["username"]);
+                     $('#loginM').hide();
+                     $('#adminName a').eq(0).text($.cookie('adminName'));
+                     $('#loginOut').removeClass('hidden');                    
+                }else{
+                    alert("登陆失败！");
+                }
+                    //关闭模态框
+                     $('#loginModal').modal('toggle');
+             });//$.post
+            }
     });
     $('#loginOut').click(function(){
         $.post('/loginOut',function(data){
@@ -52,9 +70,15 @@ $(function(){
         $('#adminName a').eq(0).text($.cookie('adminName'));
         $('#loginOut').removeClass('hidden');        
     }
-	///////////////////////////////////////////////////////////
+    /*-----------------------文章截取-------------------------*/
+    $('.articleContent').text($('.articleContent').text().substring(0,150)+'。。。');
+    /*-----------------------文章评论-------------------------*/
+    $('.commentBtn').click(function(){
+        $.post('/',$('.comment').serialize(),function(data){
+            console.log("---data---",data);
+        });
+    });
 	/*-----------------------分页-----------------------------*/
-	///////////////////////////////////////////////////////////
 	var totalPage=$.cookie('totalPage')||1;
     if(totalPage==1){
         $('.pager li:last').addClass("disabled");
@@ -105,24 +129,17 @@ $(function(){
             ajaxPagination(url);
             return false;
        });
-    ///////////////////////////////////////////////////////////
-    /*-------------控制首页中阅读文章的文章字数--------------*/
-    ///////////////////////////////////////////////////////////
-    //console.log($('.articleContent').eq(0).text().length)$('.articleContent').eq(0).text().length;
-	///////////////////////////////////////////////////////////
 	/*-----------------------写文章-----------------------------*/
-	///////////////////////////////////////////////////////////
 	function ajaxWriteArticle(){
         var title=$('#wTitle').val();
         var txtArea=$('#wContent').val();
-        console.log(111);
         $.post("/",{title:title,content:txtArea},function(data,status){
             var url=JSON.parse(data)["redirect"];
-            console.log(url);
+            //console.log(url);
             var totalPage=JSON.parse(data)["totalPage"];
             console.log(totalPage);
             $.cookie('totalPage',totalPage);
-            console.log("-----------------\n",window.location);
+            //console.log("-----------------\n",window.location);
             location.href=url;
         });//$.post
    }//ajaxWriteArticle   

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>页面切换</title>
+    <link rel="stylesheet" type="text/css" href="css/pageTab.css">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1"
+</head>
+<body>
+    <!--重点：1、按钮有何特点 
+    2、按钮和页面是如何对应的
+    3、每个页面和body一样高一样宽的设置
+    4、z-index-->
+    <div id="container">
+        <!--按钮部分-->
+        <input type="radio" checked="checked" name="tabBtn" id="controlBtn-1"></input>
+        <a href="#page-1" class="btn">one</a>
+        <input type="radio" name="tabBtn" id="controlBtn-2"></input>
+        <a href="#page-2" class="btn">two</a>
+    	<input type="radio" name="tabBtn" id="controlBtn-3"></input>
+        <a href="#page-3" class="btn">three</a>
+    	<input type="radio" name="tabBtn" id="controlBtn-4"></input>
+        <a href="#page-4" class="btn">four</a>
+    	<input type="radio" name="tabBtn" id="controlBtn-5"></input>
+        <a href="#page-5" class="btn">five</a> 
+        <!--页面部分-->  	
+        <div id="page" class="page">
+        	<div id="page-1" class="pageSec"> 
+        	    <div data-icon="%"></div>
+        	</div>
+       	    <div id="page-2" class="pageSec">
+       	        <div data-icon="B"></div>
+        	</div>
+        	<div id="page-3" class="pageSec">
+        	    <div data-icon="*"></div>
+        	</div>
+       	    <div id="page-4" class="pageSec">
+       	        <div data-icon="S"></div>
+        	</div>
+        	<div id="page-5" class="pageSec">
+        	    <div data-icon="U"></div>
+        	</div>
+        </div>
+    </div>
+</body>
+</html>

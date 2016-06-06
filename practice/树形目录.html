@@ -4,112 +4,71 @@
     <meta charset="utf-8">
 	<title></title>
 	<style type="text/css">
-  #main{
-    border:1px solid green;
-  }
-	.col{
-		padding-left: 50px;	
-		margin-top: 16px;
-	}
-	.head{
-		display: block;   
-	}
-  .headTitle {
-    display: inline-block;
-    margin-right: 20%;
-  }
-	.btn{
-		display: inline-block;
-		width:10px;
-		height: 10px;
-		line-height: 10px;
-		text-align: center;
-    border:1px solid grey;
-	}
-  .noBorder{
-     border:none;
-  }
-  .add,
-  .del {
-     margin-right:10px;
-  }
-	.hidden{
-		display:none;
-	}
-  .color {
-    background-color: grey;
-  }
+     body{
+     	margin:0;
+     	padding:10px;
+     }
+     #main{
+     	width: 50%;
+      margin: 0 auto;
+     	overflow: hidden;
+     	position: relative;
+     	padding: 10px;
+     	border: 1px solid grey;
+     }
+     #root{
+      margin-left: 0;
+     }
+     .col{
+        margin-left: 50px;
+     }
+     .head:hover{
+       color:red;
+     }
+     .head:hover >.add,
+     .head:hover >.del{
+       display: inline-block; 
+     } 
+     .head{
+     	margin-top: 10px;
+     }
+     .head>.add,
+     .head>.del{
+        display: none;
+        float: right;
+        margin-right: 10px;
+     }
+     .hide{
+      display: none;
+     }
 	</style>
 </head>
 <body>
-<div id="main">
-     <div class="col">
-       <label class="head">
-           <span class="btn">+</span>
-           <span class="headTitle">计算机书目</span>
-           <span class="add">add</span>
-           <span class="del">del</span>
-        </label>
-
-       <!-- <div class="col">
-           <label class="head">
-               <span class="btn">+</span>
-               <span class="headTitle">办公类</span>
-               <span class="add">add</span>
-               <span class="del">del</span>
-           </label>
-
-            <div class="col ">
-               <label class="head">
-                   <span class="headTitle">windows应用</span>
-                   <span class="add">add</span>
-                   <span class="del">del</span>
-               </label>
-
+    <div id="main">
+       <div id="root" class="col">
+           <div class="head">
+                 <span class="mark">+</span>
+                 <span class="title">计算机书目</span>
+                 <span class="add">+</span>
             </div>
-             <div class="col">
-               <label class="head">
-                   <span class="headTitle">office快速入门</span>
-                   <span class="add">add</span>
-                   <span class="del">del</span>
-               </label>
-
-            </div>
-        </div>
-        <div class="col">
-           <label class="head">
-               <span class="btn">+</span>
-               <span class="headTitle">编程类</span>
-               <span class="add">add</span>
-               <span class="del">del</span>
-           </label>
-
-        </div>
-        <div class="col">
-           <label class="head">
-               <span class="btn">+</span>
-               <span class="headTitle">网络类</span>
-               <span class="add">add</span>
-               <span class="del">del</span>
-           </label>
-
-        </div>
-        <div class="col">
-           <label class="head">
-               <span class="btn">+</span>
-               <span class="headTitle">动画类</span>
-               <span class="add">add</span>
-               <span class="del">del</span>
-           </label>
-        </div>-->
-    </div> 
-</div>
-    <br>
-    <br>
-    <input type="text" id="inputTxt">
-    <input type="button" id="search" value="查找">
-    <script type="text/javascript" src="js/treeMenu.js">
-    	
-    </script>
+ <!--             <div class="col">
+                 <div class="head">
+                      <span class="mark"></span>
+                      <span class="title">计算机书目</span>
+                      <span class="add">+</span>
+                      <span class="del">-</span>
+                 </div>
+                 <div class="col">
+                    <div class="head">
+                      <span class="mark"></span>
+                      <span class="title">计算机书目</span>
+                      <span class="add">+</span>
+                      <span class="del">-</span>
+                    </div>
+                </div>                 
+           </div> -->
+       </div>
+    </div>
+    <script type="text/javascript" src="js/treeMenu.js"></script>
 </body>
 </html>

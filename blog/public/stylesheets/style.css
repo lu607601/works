@@ -32,7 +32,9 @@
   }
 .articleContent {
   height:110px;
-  line-height: 30px;
+  margin: 0;
+  display: inline-block;
+  line-height: 26px;
   overflow: hidden;
 }
 /*日历*/
@@ -71,4 +73,8 @@ th,td{
 .pos {
   position: relative;
   top:-40px;
+}
+.login,
+.register{
+  cursor:pointer;
 }

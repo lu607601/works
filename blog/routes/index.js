@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Article=require('../model/article.js');
+var User=require('../model/user.js');
 
-var pageLimit=5;
+var pageLimit=5;  
   
 //写文章
 router.get("/article/w",function(req,res,next){
@@ -15,6 +16,16 @@ router.get("/article/w",function(req,res,next){
 });
 router.get('/article/e/:id',function(req,res,next){
      res.end("sorry,no code");
+});
+router.get('/article/r/:id',function(req,res,next){
+      var id=req.params.id;
+      Article.find({_id:id},function(err,articles){
+          if(err){
+            console.log("文章查看失败");
+          }else{
+            res.render("readArticle",{article:articles[0]});
+          }
+      });
 });
 router.get('/article/d/:id',function(req,res,next){
   if(req.session.user){
@@ -51,18 +62,40 @@ router.get('/', function(req, res, next) {
       }//if-else
     });//query.exec
 });
+router.post('/register',function(req,res,next){
+    var userReq={
+        username:req.body.username,
+        psw:req.body.psw
+    };
+    req.session.user=userReq;
+    var user=new User({username:userReq.username,psw:userReq.psw});
+    user.save(function(err){
+         if(err){
+            console.log("注册出错！");
+         }else{
+            console.log("注册成功！");
+         }
+    });
+    res.end(JSON.stringify({redirect:'/',admin:req.session.user}));
+});
 
 router.post('/login', function(req, res, next) {
     var user={
       username:req.body.username,   
       psw:req.body.psw
     };
-    if(user.username=="584628303@qq.com"&&user.psw=="lym-first-blog"){
-        req.session.user=user;
-        res.end(JSON.stringify({redirect:'/',admin:req.session.user}));
-    }else{
-        res.end();
-    }
+    User.find({username:user.username},function(err,userFind){
+      if(!err){
+          if(userFind[0].psw==user.psw){
+               req.session.user=user;
+               res.end(JSON.stringify({redirect:'/',admin:req.session.user}));
+          }else{
+               res.end(JSON.stringify({redirect:'/',admin:req.session.user}));
+          }//if-else
+      }else{
+         res.end(JSON.stringify({redirect:'/'}));
+      }
+    });//find
 });
 router.post('/loginOut', function(req, res, next) {
     req.session.user=null;
