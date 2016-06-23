@@ -4,7 +4,7 @@ var Article=require('../model/article.js');
 var User=require('../model/user.js');
 
 var pageLimit=5;  
-  
+
 //写文章
 router.get("/article/w",function(req,res,next){
     if(req.session.user){
@@ -18,14 +18,16 @@ router.get('/article/e/:id',function(req,res,next){
      res.end("sorry,no code");
 });
 router.get('/article/r/:id',function(req,res,next){
-      var id=req.params.id;
-      Article.find({_id:id},function(err,articles){
-          if(err){
-            console.log("文章查看失败");
-          }else{
-            res.render("readArticle",{article:articles[0]});
-          }
-      });
+      if(req.session.user){
+        var id=req.params.id;
+        Article.find({_id:id},function(err,articles){
+            if(err){
+              console.log("文章查看失败");
+            }else{
+              res.render("readArticle",{article:articles[0]});
+            }
+        });
+      }
 });
 router.get('/article/d/:id',function(req,res,next){
   if(req.session.user){
@@ -43,25 +45,7 @@ router.get('/article/d/:id',function(req,res,next){
        res.end("only admin can edit it!");
      }//if-else
 });
-router.get('/', function(req, res, next) {
-	//Article.remove({},function(err){if(err){console.log("文章删除失败")}});
-	 //文章分页查找
-    var pageNum=req.query.page||1;
-    var skipNum=(pageNum-1)*pageLimit;
-    var query=Article.find().sort({date:1}).skip(skipNum).limit(pageLimit);
-    query.exec(function(error,articlesResults){
-      if(error){
-          res.end("exec分页查询失败");
-      }else{
-          if(!req.query.page) {
-            res.render('index',{articles:articlesResults,admin:req.session.user});
-            }
-          else {
-            res.end(JSON.stringify({articles:articlesResults}));
-          }
-      }//if-else
-    });//query.exec
-});
+
 router.post('/register',function(req,res,next){
     var userReq={
         username:req.body.username,
@@ -85,13 +69,11 @@ router.post('/login', function(req, res, next) {
       psw:req.body.psw
     };
     User.find({username:user.username},function(err,userFind){
-      if(!err){
+      if(!err&&userFind.length){
           if(userFind[0].psw==user.psw){
                req.session.user=user;
+          }
                res.end(JSON.stringify({redirect:'/',admin:req.session.user}));
-          }else{
-               res.end(JSON.stringify({redirect:'/',admin:req.session.user}));
-          }//if-else
       }else{
          res.end(JSON.stringify({redirect:'/'}));
       }
@@ -100,6 +82,25 @@ router.post('/login', function(req, res, next) {
 router.post('/loginOut', function(req, res, next) {
     req.session.user=null;
     res.end(JSON.stringify({redirect:'/'}));
+});
+router.get('/', function(req, res, next) {
+  //Article.remove({},function(err){if(err){console.log("文章删除失败")}});
+   //文章分页查找
+    var pageNum=req.query.page||1;
+    var skipNum=(pageNum-1)*pageLimit;
+    var query=Article.find().sort({date:1}).skip(skipNum).limit(pageLimit);
+    query.exec(function(error,articlesResults){
+      if(error){
+          res.end("exec分页查询失败");
+      }else{
+          if(!req.query.page) {
+            res.render('index',{articles:articlesResults,admin:req.session.user});
+            }
+          else {
+            res.end(JSON.stringify({articles:articlesResults}));
+          }
+      }//if-else
+    });//query.exec
 });
 router.post('/',function(req,res){
     var title=req.body["title"];

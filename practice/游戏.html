@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>游戏</title>
+	<style type="text/css">
+	   body,ul{
+	   	margin: 0;
+	   	padding: 0
+	   }
+        li{
+        	list-style: none;
+        }
+        #gameBtn{
+        	width: 50px;
+            color: white;
+            border: 1px solid white;
+        	text-align: center;
+        	position: absolute;
+            left: 50%;
+            margin-left:-10px;
+            top:50%;
+            cursor:pointer;
+        }
+        #main{
+           width: 800px;
+           height: 600px;
+           margin: 0 auto;
+           background-color: black;
+	   	   position: relative;
+        }
+	   .beeWrap{
+    	   	width: 400px;
+            position: relative;
+	   }
+	   .e1,.e2,.e3{
+	 		float:left;
+      	   	width: 40px;
+      	   	height: 28px;
+      	   	z-index:1000;
+	   }
+	   .e1{
+	     	background-image: url(images/mf1.png);
+	   }
+	   .e2{
+	   	    background-image: url(images/mf2.png);
+	   }
+	   .e3{
+	   	    background-image: url(images/mf3.png);
+	   }
+	   .air{
+	   	  width: 46px;
+	   	  height: 60px;
+	   	  position: absolute;
+	   	  left: 50%;
+          bottom: 0;
+          z-index: 1;
+          background-image: url(images/fj.png);
+	   }
+	   .bullet {
+	   	width: 2px;
+	   	height: 20px;
+	   	position: absolute;
+	   	border:1px solid grey;
+	   }
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+             var oBtn=document.getElementById('gameBtn');
+             oBtn.onclick=function(){
+             	 this.style.display="none";
+                 game.init('main');
+             }//click
+		}//onload
+		var game={
+			enemy:['e1','e1','e1','e1','e1','e1','e1','e1','e1','e1',
+			       'e1','e1','e1','e1','e1','e1','e1','e1','e1','e1',
+			       'e2','e2','e2','e2','e2','e2','e2','e2','e2','e2',
+			       'e2','e2','e2','e2','e2','e2','e2','e2','e2','e2',
+			       'e3','e3','e3','e3','e3','e3','e3','e3','e3','e3', 
+			       'e3','e3','e3','e3','e3','e3','e3','e3','e3','e3'
+			       ],
+            init:function(id){
+                this.parent=document.getElementById(id);
+                this.createEnemy();
+                this.createAir();
+            },//init
+            createEnemy:function(){
+            	this.oUl=document.createElement('ul');
+            	this.oUl.className='beeWrap';
+            	var str='';
+                for(var i=0;i<this.enemy.length;i++){
+                   str+="<li class='"+this.enemy[i]+"'></li>";
+                }//for
+                this.oUl.innerHTML=str;
+                this.parent.appendChild(this.oUl);
+                this.enemyMove();
+                /*先把每个小敌人的定位整成绝对定位，
+                其left、top值依然是原来的left值和top值,
+                方便下面小敌人下落，打飞机，哈哈，是不是太坏了
+                */
+                var arr=[];
+                this.aEnemy=document.getElementsByTagName('li');
+                for(var i=0;i<this.aEnemy.length;i++){
+                    arr.push([this.aEnemy[i].offsetLeft,this.aEnemy[i].offsetTop]);
+                }//for-i
+                for(var i=0;i<this.aEnemy.length;i++){
+                  this.aEnemy[i].style.position='absolute';
+                  this.aEnemy[i].style.left=arr[i][0]+'px';
+                  this.aEnemy[i].style.top=arr[i][1]+'px';
+                }//for-i
+            },//createEnemy
+            enemyMove:function(){
+            	var that=this,speed=10;
+                var l=0,
+                    r=that.parent.offsetWidth-that.oUl.offsetWidth,
+                    b=that.parent.offsetHeight-that.oUl.offsetHeight;
+                var timer=setInterval(function(){
+                	 that.oUl.style.left=that.oUl.offsetLeft+speed+'px';
+                	 if(that.oUl.offsetLeft>=r){
+                	 	that.oUl.offsetLeft=r;
+                	 	that.oUl.style.top=that.oUl.offsetTop+speed+'px';
+                	 	speed*=-1;
+                	 }else if(that.oUl.offsetLeft<=0){
+                	 	that.oUl.offsetLeft=0;
+                	 	that.oUl.style.top=that.oUl.offsetTop-speed+'px';
+                	 	speed*=-1;
+                	 }
+                	 if(that.oUl.style.top>=b){
+                	 	that.oUl.style.top=b;
+                	 	clearInterval(timer);
+                	 }
+                },100);
+                setInterval(function(){
+                	that.oneEnemyMove();
+                },2000);
+            },//move
+            oneEnemyMove:function(){
+                var nowLi = this.aEnemy[Math.floor(Math.random()*this.aEnemy.length) ];
+		        var that = this;		
+		        nowLi.timer = setInterval(function(){	
+        			var a = (that.oAir.offsetLeft + that.oAir.offsetWidth/2) - (nowLi.offsetLeft + nowLi.parentNode.offsetLeft + nowLi.offsetWidth/2);
+        			var b = (that.oAir.offsetTop + that.oAir.offsetHeight/2) - (nowLi.offsetTop + nowLi.parentNode.offsetTop + nowLi.offsetHeight/2);
+        			var c = Math.sqrt(a*a + b*b);       			
+        			var sX = 5* a/c;
+        			var sY = 5* b/c;
+        			
+        			nowLi.style.left = nowLi.offsetLeft + sX + 'px';
+        			nowLi.style.top = nowLi.offsetTop + sY + 'px';
+        			if(that.pz(that.oAir,nowLi)){
+              				alert('游戏结束');
+              				window.location.reload();
+              			}
+        			},30);		
+            },//oneEnemyMove
+            createAir:function(){
+                this.oAir=document.createElement('div');
+                this.oAir.className="air";
+                this.parent.appendChild(this.oAir);
+                this.airOrder();
+            },//createAir
+            airOrder:function(){
+            	var timer=null,iNum=0,speed=10,that=this;
+            	var l=0,
+            	    r=this.parent.offsetWidth-this.oAir.offsetWidth;
+            	//键盘左右的操作，空格发子弹
+                 document.onkeydown=function(e){
+                    var e=e||window.event;
+                    if(!timer){
+                    	timer=setInterval(show,30);
+                    }
+                    if(e.keyCode==37){
+                        iNum=1;
+                    }else if(e.keyCode==39){
+                        iNum=2;
+                    }//if-else
+                 };//onkeydown
+                 document.onkeyup=function(e){
+                   var e=e||window.event;
+                   clearInterval(timer);
+                   timer=null;
+                   iNum=0;
+                   if(e.keyCode==32){
+                       that.createBullet();
+                   }//if
+                 };//onkeyup
+                 function show(){
+                    if(iNum==1){
+                        that.oAir.style.left=that.oAir.offsetLeft-speed+'px';
+                        if(that.oAir.offsetLeft<=l){
+                           that.oAir.style.left=0;
+                         }//if
+                    }else if(iNum==2){
+                        that.oAir.style.left=that.oAir.offsetLeft+speed+'px';
+                        if(that.oAir.offsetLeft>=r){
+                            that.oAir.style.left=r+'px';
+                         }//if
+                    }//if-else
+                 };
+            },//airOrder
+            createBullet:function(){
+                 var oBullet=document.createElement('div');
+                 oBullet.className='bullet';
+                 this.parent.appendChild(oBullet);
+                 oBullet.style.left=this.oAir.offsetLeft+(this.oAir.offsetWidth-oBullet.offsetWidth)/2+'px';
+                 oBullet.style.top=this.oAir.offsetTop-oBullet.offsetHeight+'px'; 
+                 this.bulletMove(oBullet);               
+            },//createBullet
+            bulletMove:function(oBullet){
+            	var timer=null,speed=10,that=this;
+                oBullet.timer=setInterval(function(){
+                 	oBullet.style.top=oBullet.offsetTop-speed+'px';
+                 	if(oBullet.offsetTop<=-20){
+                       clearInterval(oBullet.timer);
+                       that.parent.removeChild(oBullet);
+                 	}                	
+                 	for(var i=0;i<that.aEnemy.length;i++){
+                       	if(that.pz(oBullet,that.aEnemy[i])){ 
+                       		/*
+                            各种定时器带着各种奇葩                          
+                       		*/
+                             clearInterval(that.aEnemy[i].timer);     
+                             that.aEnemy[i].parentNode.removeChild(that.aEnemy[i]);
+                             that.parent.removeChild(oBullet);
+                             clearInterval(oBullet.timer);
+                       	}
+                 	}//for
+                 	if(!that.aEnemy.length){
+                 		alert("打赢喽！");
+                 		window.location.reload();
+                 	}
+                 },30);
+            },//bulletMove
+            pz:function(obj1,obj2){//obj1飞机，obj2敌人
+            	var obj1R=obj1.offsetLeft+obj1.offsetWidth;
+            	var obj1L=obj1.offsetLeft;
+            	var obj1T=obj1.offsetTop;
+            	var obj1B=obj1.offsetTop+obj1.offsetHeight;
+            	var obj2R=obj2.offsetLeft+obj2.offsetWidth+obj2.parentNode.offsetLeft;
+            	var obj2L=obj2.offsetLeft+obj2.parentNode.offsetLeft;
+            	var obj2T=obj2.offsetTop+obj2.parentNode.offsetTop;
+            	var obj2B=obj2.offsetTop+obj2.offsetHeight+obj2.parentNode.offsetTop;
+               if(obj1R<obj2L||obj1L>obj2R||obj1T>obj2B||obj1B<obj2T){
+                    return 0;
+               }else{
+                    return 1;
+               }//if-else
+            }//collision
+		}//game
+	</script>
+</head>
+<body>
+   <div id="main">
+       <div id="gameBtn">开始</div>        
+   </div>
+</body>
+</html>

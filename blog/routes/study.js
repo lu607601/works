@@ -3,7 +3,8 @@ var router = express.Router();
 var multiparty=require('multiparty');
 var util=require('util');
 var fs=require('fs');
-var Study=require('../model/study.js'); 
+var jade=require('jade');
+var Study=require('../model/study.js');  
 
 /* GET users listing. */
 router.get('/d/:id', function(req, res, next) {
@@ -24,7 +25,7 @@ router.get('/d/:id', function(req, res, next) {
           }) //fs.unlink;
         });//study.find
       }//if
-   }else{
+   }else{ 
       res.writeHeader(200,{"Content-Type":"text/html"});
       res.end("only admin can do it!");   
    }
@@ -32,6 +33,10 @@ router.get('/d/:id', function(req, res, next) {
 router.get('/', function(req, res, next) {
    //Study.remove({},function(err){if(err){console.log("删完")}}); 
    Study.find({},function(err,studyFiles){
+/*      var html1=jade.renderFile('views/includes/aside.jade');
+      console.log(html1,'\n\n');
+      var html2=jade.compileFile('views/includes/aside.jade');
+      console.log(html2);*/
       res.render('study',{studyFiles:studyFiles});
    }); 
 });

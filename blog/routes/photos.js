@@ -7,7 +7,6 @@ var Img=require('../model/img.js');
 
 router.get('/',function(req,res,next){ 
     Img.find(function(err,photos){
-       console.log("\n\n",photos,"\n\n");
         res.render('photos', { photos: photos});
     });
 });
@@ -18,10 +17,9 @@ router.post('/file/uploading',function(req,res,next){
      var form=new multiparty.Form({uploadDir:'./public/images'});
      //上传完成后处理
      form.parse(req,function(err,fields,files){
-         console.log("\n----------photos.files---------------\n",files);
          var filesTmp=JSON.stringify(files,null,2);
          if(err){
-            console.log('parse error:---111---'+err);
+            console.log('error:'+err);
          }else{
               var inputFiles=files.imgIptFile;
               var body='';

@@ -3,7 +3,7 @@ $(function(){
     $('.navBarLeft li').each(function(){  
         var activeNav=window.location.pathname.replace('/','');
         $.each($('.navBarLeft li'),function(){
-           $(this).removeClass('active');
+           $(this).removeClass('active'); 
         });  
         switch(activeNav){ 
            case '':$('.navBarLeft li').eq(0).addClass('active');
@@ -30,6 +30,7 @@ $(function(){
              $.post('/register',{username:username,psw:psw},function(data){
                 var data=JSON.parse(data);
                 $.cookie('adminName',data["admin"]["username"]);
+                $('#loginM a').text('');
                 $('#loginM').hide();
                 $('#adminName a').eq(0).text($.cookie('adminName'));
                 $('#loginOut').removeClass('hidden');
@@ -41,6 +42,7 @@ $(function(){
                 var data=JSON.parse(data);
                 if(data["admin"]){
                      $.cookie('adminName',data["admin"]["username"]);
+                     $('#loginM a').text('');
                      $('#loginM').hide();
                      $('#adminName a').eq(0).text($.cookie('adminName'));
                      $('#loginOut').removeClass('hidden');                    
@@ -54,6 +56,7 @@ $(function(){
     });
     $('#loginOut').click(function(){
         $.post('/loginOut',function(data){
+            $('#loginM a').text('登录');
             $('#loginM').show();
             $.cookie('adminName',null,{path:'/',expires:-10});
             $('#adminName').text('');
@@ -62,10 +65,12 @@ $(function(){
         });//$.post
     });
     if($.cookie('adminName')==undefined){
+        $('#loginM a').text('登录');
         $('#loginM').show();
         $('#adminName a').eq(0).text('');
         $('#loginOut').addClass('hidden');
     }else{
+        $('#loginM a').text('');
         $('#loginM').hide();
         $('#adminName a').eq(0).text($.cookie('adminName'));
         $('#loginOut').removeClass('hidden');        
